@@ -12,9 +12,7 @@ CORS(app)
 def home():
     # Return JSON response directly at the root route
     data = {
-        "message": "Welcome to the Flask API!",
-        "current_datetime": datetime.utcnow().isoformat() + "Z",
-        "github_url": "https://github.com/Jepkor1r/Back-End"
+        "message": "Welcome to the Flask API!"
     }
     return jsonify(data)
 
