@@ -44,7 +44,7 @@ def number_api():
         # Prepare the final output
         return jsonify({
             "number": number,
-            "is_prime": is_prime(abs_number),
+            "is_prime": is_prime(number),
             "is_perfect": is_perfect_number(abs_number),
             "properties": properties,
             "digit_sum": digit_sum(abs_number), 
@@ -56,7 +56,7 @@ def number_api():
 
 # Helper function to check if a number is prime
 def is_prime(n):
-    if n < 2:
+    if n <= 1:  # Prime numbers must be greater than 1
         return False
     for i in range(2, int(n ** 0.5) + 1):
         if n % i == 0:
