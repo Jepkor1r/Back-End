@@ -13,18 +13,19 @@ def home():
     }
     return jsonify(data)
 
-@app.route('/api/classify-number/<num>', methods=['GET'])
-def number(num):
+@app.route('/api/classify-number/<number>', methods=['GET'])
+def number_api(number):
+    
     try:
 
-        # Check if num is a valid integer
-        if not num.isdigit():
-            return jsonify({"number": num, "error": True})
+        # Check if number is a valid integer
+        if not number.isdigit():
+            return jsonify({"number": number, "error": True})
         
-        num = int(num)  # Convert to integer after validation
-        
+        number = int(number)  # Convert to integer after validation
+
         # Fetch a fun fact about the number from numbersapi.com
-        fun_fact_response = requests.get(f"http://numbersapi.com/{num}?json")
+        fun_fact_response = requests.get(f"http://numbersapi.com/{number}?json")
 
         # If the request to numbersapi fails, return an error
         if fun_fact_response.status_code != 200:
@@ -33,15 +34,15 @@ def number(num):
         fun_fact = fun_fact_response.json().get("text", "No fun fact available.")
 
         # Check if the number is an Armstrong number and get properties
-        properties = classify_number(num)
+        properties = classify_number(number)
 
         # Prepare the final output
         return jsonify({
-            "number": num,
-            "is_prime": is_prime(num),
-            "is_perfect": is_perfect_square(num),
+            "number": number,
+            "is_prime": is_prime(number),
+            "is_perfect": is_perfect_square(number),
             "properties": properties,
-            "digit_sum": digit_sum(num), 
+            "digit_sum": digit_sum(number), 
             "fun_fact": fun_fact
         })
 
