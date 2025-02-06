@@ -1,4 +1,5 @@
 from flask import Flask, jsonify
+from flask import request
 from flask_cors import CORS
 import requests  # Import requests to fetch external data (numbersapi.com)
 
@@ -13,16 +14,17 @@ def home():
     }
     return jsonify(data)
 
-@app.route('/api/classify-number/<number>', methods=['GET'])
-def number_api(number):
-    
-    try:
+@app.route('/api/classify-number', methods=['GET'])
+def number_api():
 
-        # Check if number is a valid integer
-        if not number.isdigit():
-            return jsonify({"number": number, "error": True})
-        
-        number = int(number)  # Convert to integer after validation
+    number = request.args.get("number")
+
+    if not number or not number.isdigit():
+        return jsonify({"number": number, "error": True}), 400
+
+    number = int(number)  # Convert to integer after validation
+
+    try:
 
         # Fetch a fun fact about the number from numbersapi.com
         fun_fact_response = requests.get(f"http://numbersapi.com/{number}?json")
